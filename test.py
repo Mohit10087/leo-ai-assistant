@@ -1,0 +1,35 @@
+import pvporcupine
+import pyaudio
+import struct
+
+def detect_wake_word():
+    porcupine = pvporcupine.create(keywords=["leo","lio","leeo","leio"])
+    pa = pyaudio.PyAudio()
+
+    stream = pa.open(
+        rate=porcupine.sample_rate,
+        channels=1,
+        format=pyaudio.paInt16,
+        input=True,
+        frames_per_buffer=porcupine.frame_length,
+    )
+
+    print("🔎 Waiting for wake word 'Leo' (Porcupine)...")
+
+    try:
+        while True:
+            pcm = stream.read(porcupine.frame_length, exception_on_overflow=False)
+            pcm = struct.unpack_from("h" * porcupine.frame_length, pcm)
+
+            result = porcupine.process(pcm)
+            if result >= 0:
+                print("👂 Wake word 'Leo' detected!")
+                break
+    finally:
+        stream.stop_stream()
+        stream.close()
+        pa.terminate()
+        porcupine.delete()
+        
+            
+       
