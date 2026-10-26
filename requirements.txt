@@ -1,0 +1,10 @@
+ollama>=0.2.0
+vosk>=0.3.45
+PyAudio>=0.2.14
+edge-tts>=6.1.10
+playsound==1.2.2
+SpeechRecognition>=3.10.0
+pyautogui>=0.9.54
+pyperclip>=1.8.2
+Pillow>=10.0.0
+requests>=2.31.0
